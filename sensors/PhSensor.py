@@ -8,6 +8,8 @@ class PhSensor(Sensor):
         self.ph_pin: ADC = ph_pin
         self.ph_max = ph_max
         self.ph_min = ph_min
+        self.last_values = [0] * 20
+        self.last_values_index = 0
 
     def read_value(self):
         # Read raw analog value from the sensor (0 to 65535 for 16-bit resolution)
@@ -15,10 +17,17 @@ class PhSensor(Sensor):
 
         # Convert to voltage (Assuming 3.3V reference voltage)
         voltage = (raw_value / 65535.0) * 3.3
-        print(voltage)
 
+        self.last_values[self.last_values_index] = voltage
+        self.last_values_index += 1
+        if self.last_values_index >= len(self.last_values):
+            self.last_values_index = 0
+
+        mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)[2:-2]))
+        mean_voltage = round(sum(mean_values) / len(mean_values), 2)
+        print(mean_voltage)
         # Convert voltage to pH value (assuming 0V -> pH 0 and 3V -> pH 14)
-        ph_value = (voltage / 0.72) * 14
+        ph_value = (mean_voltage / 6) * 14
         return ph_value
 
     def is_valid_value(self, value):
