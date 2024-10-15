@@ -13,12 +13,13 @@ class EcSensor(Sensor):
         raw_value = self.ec_pin.read_u16()
 
         # Convert to voltage (Assuming 3.3V reference voltage)
-        voltage = (raw_value / 65535.0) * 3.3
-        print(voltage)
+        voltage = (raw_value / 65535.0) * 2.3
 
-        # Convert voltage to pH value (assuming 0V -> pH 0 and 3V -> pH 14)
-        ph_value = (voltage / 0.72) * 14
-        return ph_value
+        # Placeholder formula to convert voltage to conductivity
+        # (You will need the sensor's datasheet to apply the correct conversion)
+        conductivity = voltage * 1000  # Replace with actual conversion formula
+
+        return conductivity
 
     def is_valid_value(self, value):
         return value > self.ec_min
