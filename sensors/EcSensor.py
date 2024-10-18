@@ -11,13 +11,13 @@ class EcSensor(Sensor):
     def read_value(self):
         # Read raw analog value from the sensor (0 to 65535 for 16-bit resolution)
         raw_value = self.ec_pin.read_u16()
-
+        print(raw_value)
         # Convert to voltage (Assuming 3.3V reference voltage)
-        voltage = (raw_value / 65535.0) * 2.3
-
+        voltage = (raw_value / 65535.0) * 3.3
+        
         # Placeholder formula to convert voltage to conductivity
         # (You will need the sensor's datasheet to apply the correct conversion)
-        conductivity = voltage * 1000  # Replace with actual conversion formula
+        conductivity = voltage * 100  # Replace with actual conversion formula
 
         return conductivity
 

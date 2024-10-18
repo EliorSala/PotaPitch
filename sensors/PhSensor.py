@@ -14,7 +14,7 @@ class PhSensor(Sensor):
     def read_value(self):
         # Read raw analog value from the sensor (0 to 65535 for 16-bit resolution)
         raw_value = self.ph_pin.read_u16()
-        print(raw_value)
+
         # Convert to voltage (Assuming 3.3V reference voltage)
         voltage = (raw_value / 65535.0) * 3.3
 
@@ -25,10 +25,9 @@ class PhSensor(Sensor):
 
         mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)[2:-2]))
         mean_voltage = sum(mean_values) / len(mean_values)
-        # print(mean_values)
-        print(mean_voltage)
+
         # Convert voltage to pH value (assuming 0V -> pH 0 and 3V -> pH 14)
-        ph_value = round(mean_voltage * -11.1 + 13.5, 2)
+        ph_value = round(mean_voltage * -9.28 + 29.7, 2)
 
         return ph_value
 
