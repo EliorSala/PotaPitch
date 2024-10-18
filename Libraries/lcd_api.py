@@ -137,22 +137,21 @@ class LcdApi:
         position, and advances the cursor by one position.
         """
         if char == '\n':
-            if self.implied_newline:
-                # self.implied_newline means we advanced due to a wraparound,
-                # so if we get a newline right after that we ignore it.
-                pass
-            else:
-                self.cursor_x = self.num_columns
+            # Move to the next line (line below the current one)
+            self.cursor_x = 0
+            self.cursor_y += 1
+            if self.cursor_y >= self.num_lines:  # Wrap around if needed
+                self.cursor_y = 0
+            self.move_to(self.cursor_x, self.cursor_y)
         else:
             self.hal_write_data(ord(char))
             self.cursor_x += 1
-        if self.cursor_x >= self.num_columns:
-            self.cursor_x = 0
-            self.cursor_y += 1
-            self.implied_newline = (char != '\n')
-        if self.cursor_y >= self.num_lines:
-            self.cursor_y = 0
-        self.move_to(self.cursor_x, self.cursor_y)
+            if self.cursor_x >= self.num_columns:  # When reaching the end of a line
+                self.cursor_x = 0
+                self.cursor_y += 1
+                if self.cursor_y >= self.num_lines:
+                    self.cursor_y = 0
+            self.move_to(self.cursor_x, self.cursor_y)
 
     def putstr(self, string):
         """Write the indicated string to the LCD at the current cursor

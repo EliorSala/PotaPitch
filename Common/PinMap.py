@@ -1,5 +1,5 @@
 pin_map = {
-    "PH": 26,
+    "PH": 27,
     "EC": 28,
 
     "MAIN_LED": "LED",

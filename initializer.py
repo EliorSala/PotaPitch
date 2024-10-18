@@ -11,10 +11,10 @@ from Libraries.i2c_lcd import I2cLcd
 
 
 def initialize():
-    ph_sensor_pin = ADC(Pin(26))
+    ph_sensor_pin = ADC(Pin(pin_map["PH"]))
     ph_sensor = PhSensor(ph_sensor_pin, consts.ph_max, consts.ph_min)
 
-    ec_sensor_pin = ADC(Pin(28))
+    ec_sensor_pin = ADC(Pin(pin_map["EC"]))
     ec_sensor = EcSensor(ec_sensor_pin, consts.ec_threshold)
 
     ph_led = Pin(pin_map["LED_PH"], Pin.OUT)

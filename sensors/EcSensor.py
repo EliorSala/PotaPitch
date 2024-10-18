@@ -25,5 +25,5 @@ class EcSensor(Sensor):
         return value > self.ec_min
 
     def get_lcd_string(self, ec_value):
-        return (f"Ec threshold: {self.ec_min} <\n" +
+        return (f"Ec threshold: {self.ec_min} <" +
                 f"Ec value: {ec_value}\n")
