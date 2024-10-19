@@ -18,16 +18,17 @@ def test():
     i2c_address = i2c.scan()[0]  # Typically it's 0x27 or 0x3F
     lcd = I2cLcd(i2c, i2c_address, 4, 20)  # 4x20 LCD display
 
+    display_test(lcd, "starting test\n in any second...")
+    time.sleep(3)
+
     # ph test
     ph_sensor_pin = ADC(Pin(pin_map["PH"]))
-    ph_sensor = PhSensor(ph_sensor_pin, consts.ph_max, consts.ph_min)
-    display_test(lcd, ph_sensor.get_lcd_string(ph_sensor.read_value()))
+    display_test(lcd, f"ph raw value: {ph_sensor_pin.read_u16()}")
     time.sleep(1)
 
     # ec test
     ec_sensor_pin = ADC(Pin(pin_map["EC"]))
-    ec_sensor = EcSensor(ec_sensor_pin, consts.ec_threshold)
-    display_test(lcd, ec_sensor.get_lcd_string(ec_sensor.read_value()))
+    display_test(lcd, f"ec raw value: {ph_sensor_pin.read_u16()}")
     time.sleep(1)
 
     # led test
@@ -50,32 +51,33 @@ def test():
     led_main.off()
 
     lcd_switch = Pin(pin_map["LCD_SWITCH"], Pin.IN, Pin.PULL_UP)
-    display_test(lcd, f"lcd switch: {lcd_switch.value()}\n"
+    display_test(lcd, f"lcd switch: {lcd_switch.value()}\n" +
                       f"please switch the switch")
-    time.sleep(2)
-    display_test(lcd, f"lcd switch value now"
+    time.sleep(3)
+    display_test(lcd, f"lcd switch value now" +
                       f"{lcd_switch.value()}")
     time.sleep(1)
 
     # pumps
     stirring_pump_pin = Pin(pin_map["STIRRING_PUMP"], Pin.OUT)
     display_test(lcd, "stirring pump test")
-    stirring_pump_pin.on()
-    time.sleep(1)
     stirring_pump_pin.off()
+    time.sleep(3)
+    stirring_pump_pin.on()
 
     ph_pump_pin = Pin(pin_map["PH_PUMP"], Pin.OUT)
     display_test(lcd, "ph pump test")
-    ph_pump_pin.on()
-    time.sleep(1)
     ph_pump_pin.off()
+    time.sleep(3)
+    ph_pump_pin.on()
 
     nutriments_pump_pin = Pin(pin_map["NUTRIMENTS_PUMP"], Pin.OUT)
     display_test(lcd, "nutriments pump test")
-    nutriments_pump_pin.on()
-    time.sleep(1)
     nutriments_pump_pin.off()
+    time.sleep(3)
+    nutriments_pump_pin.on()
 
 
 if __name__ == '__main__':
     test()
+
