@@ -1,4 +1,4 @@
-from Modules.ModuleBase import ModuleBase
+from Core.ModuleBase import ModuleBase
 from Libraries.i2c_lcd import I2cLcd
 
 

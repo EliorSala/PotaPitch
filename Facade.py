@@ -1,6 +1,6 @@
 from machine import Timer
 
-from Modules.ModuleBase import ModuleBase
+from Core.ModuleBase import ModuleBase
 
 
 class Facade:

@@ -1,13 +1,17 @@
-from Modules.ModuleBase import ModuleBase
+from Core.PumpBase import PumpBase
+from Core.ModuleBase import ModuleBase
+from Core.StirSwitchBase import StirSwitchBase
 from Libraries.i2c_lcd import I2cLcd
-from sensors.SensorBase import Sensor
+from Core.SensorBase import Sensor
 
 
 class SensorModule(ModuleBase):
-    def __init__(self, sensor, lcd, led):
+    def __init__(self, sensor, lcd, pump, led, stir_switch):
         self._sensor: Sensor = sensor
         self._lcd: I2cLcd = lcd
+        self._pump: PumpBase = pump
         self._led = led
+        self._stir_switch: StirSwitchBase = stir_switch
 
     def run_module(self):
         value = self._sensor.read_value()
@@ -15,7 +19,8 @@ class SensorModule(ModuleBase):
         self._lcd.putstr(lcd_str)
 
         if not self._sensor.is_valid_value(value):
-            # TODO: implement pump action
+            self._stir_switch.activate_stir()
+            self._pump.activate_pump()
             self._led.on()
         else:
             self._led.off()

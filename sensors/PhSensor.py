@@ -1,6 +1,6 @@
 from machine import ADC
 
-from sensors.SensorBase import Sensor
+from Core.SensorBase import Sensor
 
 
 class PhSensor(Sensor):

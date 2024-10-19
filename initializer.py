@@ -1,9 +1,11 @@
 from Common import consts
+from Components.WaterPumpComponent import WaterPumpComponent
 from Facade import Facade
 from Modules.ClearLcdModule import ClearLcdModule
 from Modules.LcdSwitch import LcdSwitch
 from Modules.SensorModule import SensorModule
 from Common.PinMap import pin_map
+from Modules.StirWaterModule import StirWaterModule
 from sensors.PhSensor import PhSensor
 from sensors.EcSensor import EcSensor
 from machine import Pin, ADC, I2C
@@ -30,11 +32,23 @@ def initialize():
     # Initialize the LCD display
     lcd = I2cLcd(i2c, i2c_address, 4, 20)  # 4x20 LCD display
 
+    # pump pins
+    stirring_pump_pin = Pin(pin_map["STIRRING_PUMP"], Pin.OUT)
+    ph_pump_pin = Pin(pin_map["PH_PUMP"], Pin.OUT)
+    nutriments_pump_pin = Pin(pin_map["NUTRIMENTS_PUMP"], Pin.OUT)
+
+    stirring_pump = WaterPumpComponent(stirring_pump_pin, consts.stirring_duration)
+    ph_pump = WaterPumpComponent(ph_pump_pin, consts.ph_pump_duration)
+    nutriments_pump = WaterPumpComponent(nutriments_pump_pin, consts.nutriments_pump_duration)
+
+    stirring_module = StirWaterModule(stirring_pump)
+
     modules_list = [
         LcdSwitch(lcd, lcd_switch),
         ClearLcdModule(lcd),
-        SensorModule(ph_sensor, lcd, ph_led),
-        SensorModule(ec_sensor, lcd, ec_led)
+        SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module),
+        SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module),
+        stirring_module
     ]
 
     facade = Facade(led_main, modules_list)
