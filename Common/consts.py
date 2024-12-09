@@ -1,7 +1,7 @@
-ph_max = 7
-ph_min = 6
-ec_threshold = 1100
+ph_max = 6.5
+ph_min = 5.5
+ec_threshold = 220
 
-stirring_duration = 30
-ph_pump_duration = 0.2
-nutriments_pump_duration = 0.2
+stirring_duration = 0
+ph_pump_duration = 0.35
+nutriments_pump_duration = 0.35

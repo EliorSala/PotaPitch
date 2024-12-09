@@ -1,4 +1,5 @@
 from Common import consts
+from Components.PumpsSwitch import PumpsSwitch
 from Components.WaterPumpComponent import WaterPumpComponent
 from Facade import Facade
 from Modules.ClearLcdModule import ClearLcdModule
@@ -23,6 +24,8 @@ def initialize():
     ec_led = Pin(pin_map["LED_EC"], Pin.OUT)
     led_main = Pin(pin_map["MAIN_LED"], Pin.OUT)
 
+    pumps_switch = Pin(pin_map["PUMPS_SWITCH"], Pin.IN, Pin.PULL_UP)
+    pumps_switch_component = PumpsSwitch(pumps_switch)
     lcd_switch = Pin(pin_map["LCD_SWITCH"], Pin.IN, Pin.PULL_UP)
 
     # Initialize I2C - using I2C0 (SDA=GP0, SCL=GP1)
@@ -46,8 +49,8 @@ def initialize():
     modules_list = [
         LcdSwitch(lcd, lcd_switch),
         ClearLcdModule(lcd),
-        SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module),
-        SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module),
+        SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component),
+        SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module, pumps_switch_component),
         stirring_module
     ]
 

@@ -8,7 +8,7 @@ class LcdSwitch(ModuleBase):
         self._lcd_switch = lcd_switch
 
     def run_module(self):
-        if self._lcd_switch.value() == 0:
+        if self._lcd_switch.value() != 0:
             self._lcd.display_on()
             self._lcd.backlight_on()
         else:

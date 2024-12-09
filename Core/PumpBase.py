@@ -8,6 +8,7 @@ class PumpBase:
         :param active_time: Duration (in seconds) for which the pump will be active.
         """
         self.pump_pin = pump_pin
+        self.pump_pin.on()
         self.active_time = active_time
 
     def activate_pump(self):

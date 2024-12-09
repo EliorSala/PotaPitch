@@ -6,6 +6,7 @@ pin_map = {
     "LED_PH": 15,
     "LED_EC": 16,
 
+    "PUMPS_SWITCH": 13,
     "LCD_SWITCH": 14,
     "LCD_1": 1,
     "LCD_0": 0,

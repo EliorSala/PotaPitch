@@ -4,6 +4,7 @@ from initializer import initialize
 def main():
     facade = initialize()
 
+    print("Starting facade")
     facade.start()
 
 

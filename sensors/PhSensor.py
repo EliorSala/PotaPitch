@@ -23,8 +23,12 @@ class PhSensor(Sensor):
         if self.last_values_index >= len(self.last_values):
             self.last_values_index = 0
 
-        mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)[2:-2]))
-        mean_voltage = sum(mean_values) / len(mean_values)
+        mean_voltage: float
+        try:
+            mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)[2:-2]))
+            mean_voltage = sum(mean_values) / len(mean_values)
+        except ZeroDivisionError:
+            mean_voltage = sum(self.last_values) / len(self.last_values)
 
         # Convert voltage to pH value (assuming 0V -> pH 0 and 3V -> pH 14)
         ph_value = round(mean_voltage * -9.28 + 29.7, 2)

@@ -16,6 +16,6 @@ class WaterPumpComponent(PumpBase):
         """
         Activates the water pump for the duration equal to active_time.
         """
-        self.pump_pin.on()
-        time.sleep(self.active_time)
         self.pump_pin.off()
+        time.sleep(self.active_time)
+        self.pump_pin.on()

@@ -10,12 +10,17 @@ class Facade:
         self._modules_list: list[ModuleBase] = modules_list
 
     def start(self):
-        self.tim.init(freq=1, mode=Timer.PERIODIC, callback=self.on_tick)
+        self.tim.init(freq=5, mode=Timer.PERIODIC, callback=self.on_tick)
 
     def on_tick(self, timer):
-        self._main_led.toggle()
+        try:
+            print("start")
+            self._main_led.toggle()
 
-        for module in self._modules_list:
-            module.run_module()
+            for module in self._modules_list:
+                module.run_module()
 
-        self._main_led.toggle()
+            self._main_led.toggle()
+            print("end")
+        except Exception as e:
+            print(e)
