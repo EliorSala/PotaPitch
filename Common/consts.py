@@ -5,3 +5,5 @@ ec_threshold = 220
 stirring_duration = 0
 ph_pump_duration = 0.35
 nutriments_pump_duration = 0.35
+
+

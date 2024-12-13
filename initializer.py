@@ -7,6 +7,7 @@ from Modules.LcdSwitch import LcdSwitch
 from Modules.SensorModule import SensorModule
 from Common.PinMap import pin_map
 from Modules.StirWaterModule import StirWaterModule
+from logger import Logger
 from sensors.PhSensor import PhSensor
 from sensors.EcSensor import EcSensor
 from machine import Pin, ADC, I2C
@@ -14,6 +15,8 @@ from Libraries.i2c_lcd import I2cLcd
 
 
 def initialize():
+    logger = Logger()
+
     ph_sensor_pin = ADC(Pin(pin_map["PH"]))
     ph_sensor = PhSensor(ph_sensor_pin, consts.ph_max, consts.ph_min)
 
@@ -54,6 +57,6 @@ def initialize():
         stirring_module
     ]
 
-    facade = Facade(led_main, modules_list)
+    facade = Facade(led_main, modules_list, )
 
     return facade
