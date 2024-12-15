@@ -8,13 +8,15 @@ from logger import Logger
 
 
 class SensorModule(ModuleBase):
-    def __init__(self, sensor, lcd, pump, led, stir_switch, pump_switch, logger):
+    def __init__(self, sensor, lcd, pump, led, stir_switch, pump_switch, skip_count, logger):
         self._sensor: Sensor = sensor
         self._lcd: I2cLcd = lcd
         self._pump: PumpBase = pump
         self._led = led
         self._stir_switch: StirSwitchBase = stir_switch
         self._pump_switch: PumpsSwitch = pump_switch
+        self._skip_count = skip_count
+        self._count = 0
         self._logger: Logger = logger
 
     def run_module(self):
@@ -23,11 +25,12 @@ class SensorModule(ModuleBase):
 
         self._lcd.putstr(lcd_str)
         self._logger.info(f"{value}")
-
-        if not self._sensor.is_valid_value(value):
+        self._count += 1
+        if self._count > self._skip_count and not self._sensor.is_valid_value(value):
             if self._pump_switch.should_run_pumps():
                 self._stir_switch.activate_stir()
                 self._pump.activate_pump()
             self._led.on()
         else:
+            self._count = 0
             self._led.off()

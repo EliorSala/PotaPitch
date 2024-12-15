@@ -72,6 +72,7 @@ class Logger:
     def critical(self, message):
         self.log("C", message)
 
+
 # Example usage
 if __name__ == "__main__":
     logger = Logger(level="D", log_dir="logs", retain_days=0)
