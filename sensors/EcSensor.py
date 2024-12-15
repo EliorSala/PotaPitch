@@ -27,7 +27,8 @@ class EcSensor(Sensor):
             mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)[2:-2]))
             mean_voltage = sum(mean_values) / len(mean_values)
         except ZeroDivisionError:
-            mean_voltage = sum(self.last_values) / len(self.last_values)
+            mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)))
+            mean_voltage = sum(mean_values) / len(mean_values)
 
         conductivity = mean_voltage * 100
 
@@ -37,5 +38,5 @@ class EcSensor(Sensor):
         return value > self.ec_min
 
     def get_lcd_string(self, ec_value):
-        return (f"Ec threshold: {self.ec_min} <" +
+        return (f"Ec range: {self.ec_min} <" +
                 f"Ec value: {ec_value}\n")

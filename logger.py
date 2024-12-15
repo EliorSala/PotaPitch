@@ -1,6 +1,5 @@
 import time
-import os
-
+import uos
 
 class Logger:
     LEVELS = {
@@ -15,21 +14,31 @@ class Logger:
         self.level = self.LEVELS.get(level.upper(), 20)
         self.log_dir = log_dir
         self.retain_days = retain_days
-        os.makedirs(log_dir, exist_ok=True)
+
+        # Ensure the log directory exists
+        try:
+            uos.mkdir(self.log_dir)
+        except OSError:
+            pass  # Directory already exists
 
     def cleanup_logs(self):
         current_time = time.time()
-        for filename in os.listdir(self.log_dir):
-            filepath = os.path.join(self.log_dir, filename)
-            if os.path.isfile(filepath):
-                file_time = os.path.getmtime(filepath)
-                if (current_time - file_time) >= (self.retain_days * 86400):  # 86400 seconds in a day
-                    os.remove(filepath)
+        try:
+            for filename in uos.listdir(self.log_dir):
+                filepath = f"{self.log_dir}/{filename}"
+                try:
+                    file_time = uos.stat(filepath)[8]  # Last modified time
+                    if (current_time - file_time) >= (self.retain_days * 86400):  # 86400 seconds in a day
+                        uos.remove(filepath)
+                except OSError:
+                    pass  # Skip if unable to access file info
+        except OSError:
+            pass  # Skip if directory doesn't exist or can't be accessed
 
     def get_log_file(self):
         timestamp = time.localtime()
         date = "{:02}{:02}{:02}".format(timestamp[0] % 100, timestamp[1], timestamp[2])
-        return os.path.join(self.log_dir, f"log_{date}.txt")
+        return f"{self.log_dir}/log_{date}.txt"
 
     def log(self, level, message):
         if self.LEVELS[level] >= self.level:
@@ -39,12 +48,13 @@ class Logger:
                 timestamp[3], timestamp[4], timestamp[5]
             )
             log_message = f"{raw_time}{level}{message}"
-            print(log_message)
+            print(log_message)  # Output to console
+
             log_file = self.get_log_file()
             try:
                 with open(log_file, "a") as file:
                     file.write(log_message + "\n")
-            except Exception as e:
+            except OSError as e:
                 print(f"E Failed to write log: {e}")
 
     def debug(self, message):
@@ -61,7 +71,6 @@ class Logger:
 
     def critical(self, message):
         self.log("C", message)
-
 
 # Example usage
 if __name__ == "__main__":

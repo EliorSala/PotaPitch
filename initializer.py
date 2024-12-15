@@ -52,11 +52,11 @@ def initialize():
     modules_list = [
         LcdSwitch(lcd, lcd_switch),
         ClearLcdModule(lcd),
-        SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component),
-        SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module, pumps_switch_component),
+        SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component, logger),
+        SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module, pumps_switch_component, logger),
         stirring_module
     ]
 
-    facade = Facade(led_main, modules_list, )
+    facade = Facade(led_main, modules_list, consts.cycle_frequency, logger)
 
     return facade

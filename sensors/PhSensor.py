@@ -28,7 +28,8 @@ class PhSensor(Sensor):
             mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)[2:-2]))
             mean_voltage = sum(mean_values) / len(mean_values)
         except ZeroDivisionError:
-            mean_voltage = sum(self.last_values) / len(self.last_values)
+            mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)))
+            mean_voltage = sum(mean_values) / len(mean_values)
 
         # Convert voltage to pH value (assuming 0V -> pH 0 and 3V -> pH 14)
         ph_value = round(mean_voltage * -9.28 + 29.7, 2)
@@ -39,5 +40,5 @@ class PhSensor(Sensor):
         return self.ph_max > value > self.ph_min
 
     def get_lcd_string(self, ph_value):
-        return (f"Ph threshold: {self.ph_min} - {self.ph_max}\n" +
+        return (f"Ph range: {self.ph_min} - {self.ph_max}\n" +
                 f"Ph value: {ph_value}\n")

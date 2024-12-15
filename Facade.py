@@ -5,14 +5,15 @@ from logger import Logger
 
 
 class Facade:
-    def __init__(self, main_led, modules_list, logger):
+    def __init__(self, main_led, modules_list, cycle_frequency, logger):
         self.tim = Timer()
         self._main_led = main_led
         self._modules_list: list[ModuleBase] = modules_list
+        self.freq = 1 / cycle_frequency
         self._logger: Logger = logger
 
     def start(self):
-        self.tim.init(freq=5, mode=Timer.PERIODIC, callback=self.on_tick)
+        self.tim.init(freq=self.freq, mode=Timer.PERIODIC, callback=self.on_tick)
 
     def on_tick(self, timer):
         self._logger.cleanup_logs()
