@@ -8,7 +8,7 @@ class PhSensor(Sensor):
         self.ph_pin: ADC = ph_pin
         self.ph_max = ph_max
         self.ph_min = ph_min
-        self.last_values = [0] * 20
+        self.last_values = [0] * 100
         self.last_values_index = 0
 
     def read_value(self):

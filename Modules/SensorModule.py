@@ -31,6 +31,6 @@ class SensorModule(ModuleBase):
                 self._stir_switch.activate_stir()
                 self._pump.activate_pump()
             self._led.on()
-        else:
             self._count = 0
+        else:
             self._led.off()

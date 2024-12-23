@@ -1,7 +1,7 @@
 ph_max = 6.5
 ph_min = 5.5
 ec_threshold = 212
-skip_count = 20
+skip_count = 100
 
 cycle_frequency = 10 #once every x seconds
 
