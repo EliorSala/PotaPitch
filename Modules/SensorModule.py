@@ -5,11 +5,10 @@ from Core.StirSwitchBase import StirSwitchBase
 from Libraries.i2c_lcd import I2cLcd
 from Core.SensorBase import Sensor
 from logger import Logger
-from Libraries.PID import PID
 
 
 class SensorModule(ModuleBase):
-    def __init__(self, sensor, lcd, pump, led, stir_switch, pump_switch, skip_count, logger, pid):
+    def __init__(self, sensor, lcd, pump, led, stir_switch, pump_switch, skip_count, logger):
         self._sensor: Sensor = sensor
         self._lcd: I2cLcd = lcd
         self._pump: PumpBase = pump
@@ -18,7 +17,6 @@ class SensorModule(ModuleBase):
         self._pump_switch: PumpsSwitch = pump_switch
         self._skip_count = skip_count
         self._count = 0
-        self._pid: PID = pid
         self._logger: Logger = logger
 
     def run_module(self):
@@ -30,9 +28,8 @@ class SensorModule(ModuleBase):
         self._count += 1
         if self._count > self._skip_count and not self._sensor.is_valid_value(value):
             if self._pump_switch.should_run_pumps():
-                active_time = self._pid(value)
                 self._stir_switch.activate_stir()
-                self._pump.activate_pump(active_time)
+                self._pump.activate_pump()
             self._led.on()
             self._count = 0
         else:

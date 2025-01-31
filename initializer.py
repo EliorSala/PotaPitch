@@ -12,7 +12,6 @@ from sensors.PhSensor import PhSensor
 from sensors.EcSensor import EcSensor
 from machine import Pin, ADC, I2C
 from Libraries.i2c_lcd import I2cLcd
-from Libraries.PID import PID
 
 
 def initialize():
@@ -50,16 +49,13 @@ def initialize():
 
     stirring_module = StirWaterModule(stirring_pump)
 
-    ph_pid = PID(Kp=1.0, Ki=0.1, Kd=0.05, setpoint=consts.ph_max, output_limits=(consts.ph_pump_duration, 0.0))  # TODO
-    ec_pid = PID(Kp=1.0, Ki=0.1, Kd=0.05, setpoint=consts.ec_threshold, output_limits=(consts.nutriments_pump_duration, 0.0))  # TODO
-
     modules_list = [
         LcdSwitch(lcd, lcd_switch),
         ClearLcdModule(lcd),
         SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component, consts.skip_count,
-                     logger, ph_pid),
+                     logger),
         SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module, pumps_switch_component,
-                     consts.skip_count, logger, ec_pid),
+                     consts.skip_count, logger),
         stirring_module
     ]
 
