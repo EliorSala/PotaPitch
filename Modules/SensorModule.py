@@ -1,3 +1,5 @@
+from Common import consts
+from Common.ModuleSharedCache import ModuleSharedCache
 from Components.PumpsSwitch import PumpsSwitch
 from Core.PumpBase import PumpBase
 from Core.ModuleBase import ModuleBase
@@ -19,7 +21,7 @@ class SensorModule(ModuleBase):
         self._count = 0
         self._logger: Logger = logger
 
-    def run_module(self):
+    def run_module(self, module_shared_cache: ModuleSharedCache):
         value = self._sensor.read_value()
         lcd_str = self._sensor.get_lcd_string(value)
 
@@ -27,10 +29,11 @@ class SensorModule(ModuleBase):
         self._logger.info(f"{value}")
         self._count += 1
         if self._count > self._skip_count and not self._sensor.is_valid_value(value):
-            if self._pump_switch.should_run_pumps():
+            if self._pump_switch.should_run_pumps() and module_shared_cache.liquid_pump_cooldown == 0:
                 self._logger.info(f"pump activating")
                 self._stir_switch.activate_stir()
                 self._pump.activate_pump()
+                module_shared_cache.liquid_pump_cooldown = consts.liquid_pump_cooldown
             self._led.on()
             self._count = 0
         else:

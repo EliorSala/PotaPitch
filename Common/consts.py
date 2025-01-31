@@ -12,3 +12,6 @@ ph_pump_duration = 0.35
 nutriments_pump_duration = 0.4
 
 
+liquid_pump_cooldown = 20
+
+

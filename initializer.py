@@ -52,10 +52,10 @@ def initialize():
     modules_list = [
         LcdSwitch(lcd, lcd_switch),
         ClearLcdModule(lcd),
-        SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component, consts.skip_count,
-                     logger),
         SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module, pumps_switch_component,
                      consts.skip_count, logger),
+        SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component, consts.skip_count,
+                     logger),
         stirring_module
     ]
 
