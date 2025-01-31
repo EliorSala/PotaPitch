@@ -32,7 +32,7 @@ class PhSensor(Sensor):
             mean_voltage = sum(mean_values) / len(mean_values)
 
         # Convert voltage to pH value (assuming 0V -> pH 0 and 3V -> pH 14)
-        ph_value = round(mean_voltage * -9.28 + 29.7, 2)
+        ph_value = round(mean_voltage * -5 + 14.8, 2)
 
         return ph_value
 
