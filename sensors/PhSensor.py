@@ -4,11 +4,11 @@ from Core.SensorBase import Sensor
 
 
 class PhSensor(Sensor):
-    def __init__(self, ph_pin: ADC, ph_max: float, ph_min: float):
+    def __init__(self, ph_pin: ADC, ph_max: float, ph_min: float, avg_array_size: int):
         self.ph_pin: ADC = ph_pin
         self.ph_max = ph_max
         self.ph_min = ph_min
-        self.last_values = [0] * 100
+        self.last_values = [0] * avg_array_size
         self.last_values_index = 0
 
     def read_value(self):

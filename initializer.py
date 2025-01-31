@@ -18,10 +18,10 @@ def initialize():
     logger = Logger()
 
     ph_sensor_pin = ADC(Pin(pin_map["PH"]))
-    ph_sensor = PhSensor(ph_sensor_pin, consts.ph_max, consts.ph_min)
+    ph_sensor = PhSensor(ph_sensor_pin, consts.ph_max, consts.ph_min, consts.avg_array_size)
 
     ec_sensor_pin = ADC(Pin(pin_map["EC"]))
-    ec_sensor = EcSensor(ec_sensor_pin, consts.ec_threshold)
+    ec_sensor = EcSensor(ec_sensor_pin, consts.ec_threshold, consts.avg_array_size)
 
     ph_led = Pin(pin_map["LED_PH"], Pin.OUT)
     ec_led = Pin(pin_map["LED_EC"], Pin.OUT)

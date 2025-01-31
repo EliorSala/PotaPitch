@@ -4,10 +4,10 @@ from Core.SensorBase import Sensor
 
 
 class EcSensor(Sensor):
-    def __init__(self, ec_pin: ADC, ec_min: float):
+    def __init__(self, ec_pin: ADC, ec_min: float, avg_array_size: int):
         self.ec_pin: ADC = ec_pin
         self.ec_min = ec_min
-        self.last_values = [0] * 100
+        self.last_values = [0] * avg_array_size
         self.last_values_index = 0
 
     def read_value(self):
