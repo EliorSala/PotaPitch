@@ -28,6 +28,7 @@ class SensorModule(ModuleBase):
         self._count += 1
         if self._count > self._skip_count and not self._sensor.is_valid_value(value):
             if self._pump_switch.should_run_pumps():
+                self._logger.info(f"pump activating")
                 self._stir_switch.activate_stir()
                 self._pump.activate_pump()
             self._led.on()
