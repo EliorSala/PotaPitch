@@ -18,7 +18,7 @@ class SensorModule(ModuleBase):
         self._stir_switch: StirSwitchBase = stir_switch
         self._pump_switch: PumpsSwitch = pump_switch
         self._skip_count = skip_count
-        self._count = 0
+        self._count = skip_count
         self._logger: Logger = logger
 
     def run_module(self, module_shared_cache: ModuleSharedCache):
