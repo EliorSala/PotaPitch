@@ -30,4 +30,4 @@ class Facade:
 
             self._main_led.toggle()
         except Exception as e:
-            print(e)
+            self._logger.error(f"{repr(e)}")
