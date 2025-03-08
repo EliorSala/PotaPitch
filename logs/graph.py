@@ -4,7 +4,16 @@ from datetime import datetime
 
 # File path
 file_path = 'log_210101.parsed.txt'
-file_path2 = 'log_210102.parsed.txt'
+file_paths = [
+    'log_210101.parsed.txt',
+    'log_210102.parsed.txt',
+    'log_210103.parsed.txt',
+    'log_210104.parsed.txt',
+    'log_210105.parsed.txt',
+    'log_210106.parsed.txt',
+    'log_210107.parsed.txt',
+    'log_210108.parsed.txt',
+]
 
 # Regular expression to parse logs
 log_pattern = re.compile(r'\[(.*?)\] INFO: (.*?)$')
@@ -46,6 +55,9 @@ def plot_logs(logs):
 
 # Main execution
 if __name__ == "__main__":
-    logs = parse_logs(file_path)
-    logs2 = parse_logs(file_path2)
-    plot_logs(logs + logs2)
+    logs = parse_logs(file_paths[0])
+    # logs = []
+    # for path in file_paths:
+    #     logs += parse_logs(path)
+
+    plot_logs(logs)

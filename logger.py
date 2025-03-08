@@ -30,8 +30,8 @@ class Logger:
                     file_time = uos.stat(filepath)[8]  # Last modified time
                     if (current_time - file_time) >= (self.retain_days * 86400):  # 86400 seconds in a day
                         uos.remove(filepath)
-                except OSError:
-                    pass  # Skip if unable to access file info
+                except OSError as e:
+                    self.error(f"Failed to remove file: {e}")  # Skip if unable to access file info
         except OSError:
             pass  # Skip if directory doesn't exist or can't be accessed
 
