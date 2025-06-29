@@ -1,6 +1,6 @@
 ph_max = 6.5
 ph_min = 5.5
-ec_threshold = 212
+ec_threshold = 1450
 skip_count = 200
 avg_array_size = 50
 

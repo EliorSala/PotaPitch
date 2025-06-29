@@ -30,8 +30,7 @@ class EcSensor(Sensor):
             mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)))
             mean_voltage = sum(mean_values) / len(mean_values)
 
-        conductivity = mean_voltage * 100
-
+        conductivity = self.get_conductivity(mean_voltage)  # mean_voltage * 10185 - 27056
         return conductivity
 
     def is_valid_value(self, value):
@@ -40,3 +39,7 @@ class EcSensor(Sensor):
     def get_lcd_string(self, ec_value):
         return (f"Ec range: {self.ec_min} <" +
                 f"Ec value: {ec_value}\n")
+
+    def get_conductivity(self, voltage):
+        ec = (69.26 * voltage ** 3 + 401.45 * voltage - 18.68)
+        return ec
