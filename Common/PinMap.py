@@ -11,7 +11,7 @@ pin_map = {
     "LCD_1": 1,
     "LCD_0": 0,
 
-    "STIRRING_PUMP": 2,
+    "SYSTEM_PUMP": 2,
     "PH_PUMP": 3,
     "NUTRIMENTS_PUMP": 4
 }

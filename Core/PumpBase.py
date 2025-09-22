@@ -1,6 +1,6 @@
 
 class PumpBase:
-    def __init__(self,  pump_pin, active_time):
+    def __init__(self,  pump_pin):
         """
         Initializes the pump with the specified active time.
 
