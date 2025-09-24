@@ -10,7 +10,7 @@ class Logger:
         "C": 50
     }
 
-    def __init__(self, level="I", log_dir="logs", retain_days=7):
+    def __init__(self, level="I", log_dir="logs", retain_days=4):
         self.level = self.LEVELS.get(level.upper(), 20)
         self.log_dir = log_dir
         self.retain_days = retain_days
