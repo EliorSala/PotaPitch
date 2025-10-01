@@ -9,7 +9,6 @@ class PumpBase:
         """
         self.pump_pin = pump_pin
         self.pump_pin.on()
-        self.active_time = active_time
 
     def activate_pump(self):
         """

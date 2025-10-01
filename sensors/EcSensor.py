@@ -40,6 +40,7 @@ class EcSensor(Sensor):
         return (f"Ec range: {self.ec_min} <" +
                 f"Ec value: {ec_value}\n")
 
-    def get_conductivity(self, voltage):
+    @staticmethod
+    def get_conductivity(voltage):
         ec = (69.26 * voltage ** 3 + 401.45 * voltage - 18.68)
         return ec

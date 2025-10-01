@@ -46,7 +46,7 @@ def initialize():
     ph_pump_pin = Pin(pin_map["PH_PUMP"], Pin.OUT)
     nutriments_pump_pin = Pin(pin_map["NUTRIMENTS_PUMP"], Pin.OUT)
 
-    system_pump = TogglePumpComponent(system_pump_pin)
+    system_pump = TogglePumpComponent(system_pump_pin, consts.system_pump_cycle_activations)
     ph_pump = WaterPumpComponent(ph_pump_pin, consts.ph_pump_duration)
     nutriments_pump = WaterPumpComponent(nutriments_pump_pin, consts.nutriments_pump_duration)
 
