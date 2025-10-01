@@ -1,12 +1,15 @@
 from Common import consts
 from Components.PumpsSwitch import PumpsSwitch
+from Components.TogglePumpComponent import TogglePumpComponent
 from Components.WaterPumpComponent import WaterPumpComponent
 from Facade import Facade
 from Modules.ClearLcdModule import ClearLcdModule
 from Modules.LcdSwitch import LcdSwitch
+from Modules.NoStirWaterPumpModule import NoStirWaterPumpModule
 from Modules.SensorModule import SensorModule
 from Common.PinMap import pin_map
 from Modules.StirWaterModule import StirWaterModule
+from Modules.SystemPumpModule import SystemPumpModule
 from logger import Logger
 from sensors.PhSensor import PhSensor
 from sensors.EcSensor import EcSensor
@@ -39,24 +42,25 @@ def initialize():
     lcd = I2cLcd(i2c, i2c_address, 4, 20)  # 4x20 LCD display
 
     # pump pins
-    stirring_pump_pin = Pin(pin_map["STIRRING_PUMP"], Pin.OUT)
+    system_pump_pin = Pin(pin_map["SYSTEM_PUMP"], Pin.OUT)
     ph_pump_pin = Pin(pin_map["PH_PUMP"], Pin.OUT)
     nutriments_pump_pin = Pin(pin_map["NUTRIMENTS_PUMP"], Pin.OUT)
 
-    stirring_pump = WaterPumpComponent(stirring_pump_pin, consts.stirring_duration)
+    system_pump = TogglePumpComponent(system_pump_pin)
     ph_pump = WaterPumpComponent(ph_pump_pin, consts.ph_pump_duration)
     nutriments_pump = WaterPumpComponent(nutriments_pump_pin, consts.nutriments_pump_duration)
 
-    stirring_module = StirWaterModule(stirring_pump)
+    # stirring_module = StirWaterModule(system_pump)
+    stirring_module = NoStirWaterPumpModule()
 
     modules_list = [
+        SystemPumpModule(system_pump),
         LcdSwitch(lcd, lcd_switch),
         ClearLcdModule(lcd),
         SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component, consts.skip_count,
                      logger),
         SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module, pumps_switch_component,
-                     consts.skip_count, logger),
-        stirring_module
+                     consts.skip_count, logger)
     ]
 
     facade = Facade(led_main, modules_list, consts.cycle_frequency, logger)
