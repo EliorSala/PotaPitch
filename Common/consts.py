@@ -5,7 +5,7 @@ skip_count = 200
 avg_array_size = 50
 
 cycle_frequency = 10 #once every x seconds
-system_pump_cycle_activations = 6
+system_pump_cycle_activations = 60
 
 
 stirring_duration = 30
