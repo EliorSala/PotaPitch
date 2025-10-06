@@ -7,16 +7,16 @@ file_path = 'log_210101.parsed.txt'
 file_paths = [
     'log_210101.parsed.txt',
     'log_210102.parsed.txt',
-    'log_210103.parsed.txt',
-    'log_210104.parsed.txt',
-    'log_210105.parsed.txt',
-    'log_210106.parsed.txt',
-    'log_210107.parsed.txt',
-    'log_210108.parsed.txt',
+    # 'log_210103.parsed.txt',
+    # 'log_210104.parsed.txt',
+    # 'log_210105.parsed.txt',
+    # 'log_210106.parsed.txt',
+    # 'log_210107.parsed.txt',
+    # 'log_210108.parsed.txt',
 ]
 
 # Regular expression to parse logs
-log_pattern = re.compile(r'\[(.*?)\] INFO: (.*?)$')
+log_pattern = re.compile(r'\[(.*?)\] INFO: ([+-]?(?:\d*\.\d+|\d+))$')
 
 def parse_logs(file_path):
     """Parses the log file and returns a dictionary with timestamps and their corresponding values."""
@@ -24,7 +24,7 @@ def parse_logs(file_path):
     with open(file_path, 'r') as file:
         for line in file:
             match = log_pattern.match(line.strip())
-            if match:
+            if match and line.find('pump activating') == -1:
                 timestamp_str, value_str = match.groups()
                 try:
                     timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
@@ -32,9 +32,9 @@ def parse_logs(file_path):
                     logs.append((timestamp, value))
                 except ValueError:
                     pass
-    return logs[::2]
+    return logs
 
-def plot_logs(logs):
+def plot_logs(fg,logs):
     """Plots the logs as a single graph with time on the x-axis and values on the y-axis."""
     if not logs:
         print("No logs to plot.")
@@ -42,7 +42,7 @@ def plot_logs(logs):
 
     timestamps, values = zip(*logs)
 
-    plt.figure(figsize=(12, 6))
+    plt.figure(fg, figsize=(12, 6))
     plt.plot(timestamps, values, marker='o', linestyle='-', label='Log Values')
     plt.xlabel('Time')
     plt.ylabel('Value')
@@ -50,14 +50,17 @@ def plot_logs(logs):
     plt.legend()
     plt.grid()
     plt.tight_layout()
-    plt.show()
+
 
 
 # Main execution
 if __name__ == "__main__":
-    logs = parse_logs(file_paths[0])
-    # logs = []
-    # for path in file_paths:
-    #     logs += parse_logs(path)
+    # logs = parse_logs(file_paths[0])
+    logs = []
+    for path in file_paths:
+        logs += parse_logs(path)
 
-    plot_logs(logs)
+
+    plot_logs(1, logs[::2])
+    plot_logs(2, logs[1::2])
+    plt.show()

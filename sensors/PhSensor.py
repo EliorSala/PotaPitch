@@ -37,7 +37,7 @@ class PhSensor(Sensor):
         return ph_value
 
     def is_valid_value(self, value):
-        return self.ph_max > value > self.ph_min
+        return self.ph_max > value
 
     def get_lcd_string(self, ph_value):
         return (f"Ph range: {self.ph_min} - {self.ph_max}\n" +
