@@ -10,7 +10,7 @@ from logger import Logger
 
 
 class SensorModule(ModuleBase):
-    def __init__(self, sensor, lcd, pump, led, stir_switch, pump_switch, skip_count, logger):
+    def __init__(self, sensor, lcd, pump, led, stir_switch, pump_switch, skip_count, logger, sensor_type):
         self._sensor: Sensor = sensor
         self._lcd: I2cLcd = lcd
         self._pump: PumpBase = pump
@@ -20,21 +20,29 @@ class SensorModule(ModuleBase):
         self._skip_count = skip_count
         self._count = skip_count
         self._logger: Logger = logger
+        self._sensor_type = sensor_type
 
     def run_module(self, module_shared_cache: ModuleSharedCache):
         value = self._sensor.read_value()
         lcd_str = self._sensor.get_lcd_string(value)
 
         self._lcd.putstr(lcd_str)
-        self._logger.info(f"{value}")
+        # self._logger.info(f"{value}")
+        log_string = (f"{self._sensor_type},"
+                      f"{self._sensor.last_values[self._sensor.last_values_index]},"
+                      f"{self._sensor.calculate_mean()},"
+                      f"{value},")
         self._count += 1
         if self._count > self._skip_count and not self._sensor.is_valid_value(value):
             if self._pump_switch.should_run_pumps() and module_shared_cache.liquid_pump_cooldown == 0:
-                self._logger.info(f"pump activating")
+                # self._logger.info(f"pump activating")
                 self._stir_switch.activate_stir()
                 self._pump.activate_pump()
                 module_shared_cache.liquid_pump_cooldown = consts.liquid_pump_cooldown
+                log_string += "A"
             self._led.on()
             self._count = 0
         else:
             self._led.off()
+            log_string += "I"
+        self._logger.info(log_string)
