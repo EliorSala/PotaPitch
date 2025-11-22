@@ -5,10 +5,9 @@ from Core.SensorBase import Sensor
 
 class EcSensor(Sensor):
     def __init__(self, ec_pin: ADC, ec_min: float, avg_array_size: int):
+        super().__init__(avg_array_size)
         self.ec_pin: ADC = ec_pin
         self.ec_min = ec_min
-        self.last_values = [0] * avg_array_size
-        self.last_values_index = 0
 
     def read_value(self):
         # Read raw analog value from the sensor (0 to 65535 for 16-bit resolution)
@@ -22,13 +21,7 @@ class EcSensor(Sensor):
         if self.last_values_index >= len(self.last_values):
             self.last_values_index = 0
 
-        mean_voltage: float
-        try:
-            mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)[2:-2]))
-            mean_voltage = sum(mean_values) / len(mean_values)
-        except ZeroDivisionError:
-            mean_values = list(filter(lambda value: value != 0, sorted(self.last_values)))
-            mean_voltage = sum(mean_values) / len(mean_values)
+        mean_voltage: float = self.calculate_mean()
 
         conductivity = self.get_conductivity(mean_voltage)  # mean_voltage * 10185 - 27056
         return conductivity
