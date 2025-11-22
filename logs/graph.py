@@ -5,13 +5,15 @@ from datetime import datetime
 # File path
 file_path = 'log_210101.parsed.txt'
 file_paths = [
-    'log_210101.parsed.txt',
-    'log_210102.parsed.txt',
-    # 'log_210103.parsed.txt',
-    # 'log_210104.parsed.txt',
-    # 'log_210105.parsed.txt',
-    # 'log_210106.parsed.txt',
-    # 'log_210107.parsed.txt',
+    # 'log_210101.parsed.txt',
+    # 'log_210111.parsed.txt',
+    # 'log_210112.parsed.txt',
+    # 'log_210113.parsed.txt',
+    # 'log_210114.parsed.txt',
+    'log_210124.parsed.txt',
+    'log_210125.parsed.txt',
+    'log_210126.parsed.txt',
+    'log_210127.parsed.txt',
     # 'log_210108.parsed.txt',
 ]
 

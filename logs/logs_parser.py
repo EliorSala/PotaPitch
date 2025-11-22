@@ -30,10 +30,12 @@ def parse_log_file(input_file, output_file):
 
 # Example usage
 parse_log_file("./log_210101.txt", "log_210101.parsed.txt")
-parse_log_file("./log_210102.txt", "log_210102.parsed.txt")
-# parse_log_file("./log_210103.txt", "log_210103.parsed.txt")
-# parse_log_file("./log_210105.txt", "log_210104.parsed.txt")
-# parse_log_file("./log_210106.txt", "log_210105.parsed.txt")
-# parse_log_file("./log_210104.txt", "log_210106.parsed.txt")
-# parse_log_file("./log_210107.txt", "log_210107.parsed.txt")
+parse_log_file("./log_210111.txt", "log_210111.parsed.txt")
+parse_log_file("./log_210112.txt", "log_210112.parsed.txt")
+parse_log_file("./log_210113.txt", "log_210113.parsed.txt")
+parse_log_file("./log_210114.txt", "log_210114.parsed.txt")
+parse_log_file("./log_210124.txt", "log_210124.parsed.txt")
+parse_log_file("./log_210125.txt", "log_210125.parsed.txt")
+parse_log_file("./log_210126.txt", "log_210126.parsed.txt")
+parse_log_file("./log_210127.txt", "log_210127.parsed.txt")
 # parse_log_file("./log_210108.txt", "log_210108.parsed.txt")

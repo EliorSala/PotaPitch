@@ -58,9 +58,9 @@ def initialize():
         LcdSwitch(lcd, lcd_switch),
         ClearLcdModule(lcd),
         SensorModule(ph_sensor, lcd, ph_pump, ph_led, stirring_module, pumps_switch_component, consts.skip_count,
-                     logger),
+                     logger, "PH"),
         SensorModule(ec_sensor, lcd, nutriments_pump, ec_led, stirring_module, pumps_switch_component,
-                     consts.skip_count, logger)
+                     consts.skip_count, logger, "EC")
     ]
 
     facade = Facade(led_main, modules_list, consts.cycle_frequency, logger)
