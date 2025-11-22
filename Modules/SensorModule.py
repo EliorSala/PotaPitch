@@ -28,7 +28,7 @@ class SensorModule(ModuleBase):
 
         self._lcd.putstr(lcd_str)
         # self._logger.info(f"{value}")
-        log_string = (f"{self._sensor_type},{self._sensor.last_values[self._sensor.last_values_index]},{self._sensor.calculate_mean()},{value},")
+        log_string = (f"{self._sensor_type},{round(self._sensor.last_values[self._sensor.last_values_index], 2)},{self._sensor.calculate_mean()},{value},")
         self._count += 1
         if self._count > self._skip_count and not self._sensor.is_valid_value(value):
             if self._pump_switch.should_run_pumps() and module_shared_cache.liquid_pump_cooldown == 0:
